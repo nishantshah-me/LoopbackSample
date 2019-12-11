@@ -1,0 +1,27 @@
+version: "3.3"
+
+services:
+  database:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - backend
+
+  web:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nish9900/loopback-docker
+    restart: always
+    ports:
+      - "9000:3000"
+    depends_on:
+      - database
+    networks:
+      - backend
+
+networks:
+  backend:
